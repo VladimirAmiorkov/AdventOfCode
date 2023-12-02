@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "B38787EA-9535-4ED5-BCAD-6C97F31C0524",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AdventOfCodeTests",
+        "name" : "AdventOfCodeTests"
+      }
+    }
+  ],
+  "version" : 1
+}
