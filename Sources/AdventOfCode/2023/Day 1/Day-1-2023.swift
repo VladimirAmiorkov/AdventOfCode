@@ -14,14 +14,12 @@ public struct Day_1_2023 { }
 extension Day_1_2023: AdventTaskExecutable {
     
     public func execute(input: Any) -> Any? {
-        guard let inputString = input as? String else { return nil }
+        guard let input = InputParser.parse(input: input) else { return nil }
         
-        let lines = Array(inputString.lines)
-        
-        var parsed = NumbersParser.replaceStringsWithNumbers(input: lines)
+        var parsed = NumbersParser.replaceStringsWithNumbers(input: input)
         parsed = NumbersParser.removeChars(input: parsed)
         
-        assert(lines.count == parsed.count)
+        assert(input.count == parsed.count)
 
         let answer = parsed.reduce(into: 0) { partialResult, stringNumber in
             guard let number = Int(stringNumber) else {
@@ -30,7 +28,7 @@ extension Day_1_2023: AdventTaskExecutable {
             partialResult += number
         }
         
-        consolePrint("Day 1-2023 - input: \n\(inputString)")
+        consolePrint("Day 1-2023 - input: \n\(input)")
         consolePrint("Day 1-2023 - answer: '\(answer)'")
         
         return answer
@@ -41,7 +39,7 @@ extension Day_1_2023: AdventTaskExecutable {
 extension Day_1_2023: ConsolePrintable {
     
     var enableConsolePrint: Bool {
-        true
+        Self.enableConsolePrint
     }
     
     static var enableConsolePrint: Bool {
