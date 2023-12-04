@@ -24,12 +24,26 @@ extension Day_2_2023: AdventTaskExecutable {
         
         guard !cubeSets.isEmpty else { return nil }
         
-        let result = cubeSets.result(for: question)
+        consolePrint("Day 2-2023 part 1 - input: \n\(input)")
+        consolePrint("Day 2-2023 part 1 - answer: '\(cubeSets.resultPart1)'")
         
-        consolePrint("Day 2-2023 - input: \n\(input)")
-        consolePrint("Day 2-2023 - answer: '\(result)'")
+        return cubeSets.resultPart1
+    }
+    
+    func executePartTwo(input: Any) -> Any? {
+        guard let inputObj = input as? Input else { return nil }
+        guard let input = InputParser.parse(input: inputObj.text) else { return nil }
         
-        return result
+        let cubeSets = Parser.parse(lines: input, question: nil)
+        
+        assert(input.count == cubeSets.count)
+        
+        guard !cubeSets.isEmpty else { return nil }
+        
+        consolePrint("Day 2-2023 part 2 - input: \n\(input)")
+        consolePrint("Day 2-2023 part 2 - answer: '\(cubeSets.resultPart2)'")
+        
+        return cubeSets.resultPart2
     }
 }
 
@@ -71,11 +85,13 @@ extension Day_2_2023 {
     struct CubeSet {
         let gameID: Int
         var isPossible: Bool {
-            results.allSatisfy { $0.isPossible(for: question)}
+            guard let question = question else { return false }
+            
+            return results.allSatisfy { $0.isPossible(for: question)}
         }
         
         let results: [BagResult]
-        let question: Question
+        let question: Question?
     }
     
     struct Parser {
@@ -87,7 +103,7 @@ extension Day_2_2023 {
             static let greenRegEx = "(\\d+)\\s+green"
         }
         
-        static func parse(lines: [String], question: Question) -> [CubeSet] {
+        static func parse(lines: [String], question: Question?) -> [CubeSet] {
             var result: [CubeSet] = []
             lines.forEach { line in
                 guard let cubeSet = parse(line: line, question: question) else { return }
@@ -97,7 +113,7 @@ extension Day_2_2023 {
             return result
         }
         
-        static func parse(line: String, question: Question) -> CubeSet? {
+        static func parse(line: String, question: Question?) -> CubeSet? {
             guard let gameIDSeparatorIndex = line.firstIndex(of: ":") else {
                 return nil
             }
@@ -190,12 +206,30 @@ private extension Array where Element == Day_2_2023.CubeSet {
         let gameId: Int
     }
     
-    func result(for question: Day_2_2023.Question) -> Int {
+    var resultPart1: Int {
         var result = 0
         self.forEach { cuberSet in
             guard cuberSet.isPossible else { return }
             
             result += cuberSet.gameID
+        }
+        
+        return result
+    }
+    
+    var resultPart2: Int {
+        var result = 0
+        self.forEach { cuberSet in
+            var maxRed = 0
+            var maxGreen = 0
+            var maxBlue = 0
+            cuberSet.results.forEach { bagResult in
+                maxRed = bagResult.red < maxRed ? maxRed : bagResult.red
+                maxGreen = bagResult.green < maxGreen ? maxGreen : bagResult.green
+                maxBlue = bagResult.blue < maxBlue ? maxBlue : bagResult.blue
+            }
+            
+            result += maxRed * maxGreen * maxBlue
         }
         
         return result

@@ -9,4 +9,5 @@ import Foundation
 
 protocol AdventTaskExecutable {
     func execute(input: Any) -> Any?
+    func executePartTwo(input: Any) -> Any?
 }

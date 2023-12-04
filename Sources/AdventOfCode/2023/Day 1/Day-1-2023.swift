@@ -33,6 +33,12 @@ extension Day_1_2023: AdventTaskExecutable {
         
         return answer
     }
+    
+    func executePartTwo(input: Any) -> Any? {
+        /* NOOP */
+        
+        return nil
+    }
 }
 
 // MARK: ConsolePrintable

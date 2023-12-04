@@ -34,11 +34,36 @@ final class Day_2_2023Tests: XCTestCase {
         XCTAssertEqual(answer, expected)
     }
     
-    func testPerformanceExample() throws {
+    func testPerformanceExecute() throws {
         self.measure {
             _ = sut.execute(input: Day_2_2023.input)
         }
     }
+    
+    func testPartTwoTestInput() throws {
+        let input = Day_2_2023.Input(question: Day_2_2023.question, text: Day_2_2023.testInputPart2)
+        let answer = try XCTUnwrap(sut.executePartTwo(input: input) as? Int)
+        
+        let expected = 2286
+        
+        XCTAssertEqual(answer, expected)
+    }
+    
+    func testPartTwoRealInput() throws {
+        let input = Day_2_2023.Input(question: Day_2_2023.question, text: Day_2_2023.input)
+        let answer = try XCTUnwrap(sut.executePartTwo(input: input) as? Int)
+        
+        let expected = 56580
+        
+        XCTAssertEqual(answer, expected)
+    }
+    
+    func testPerformanceExecutePart2() throws {
+        self.measure {
+            _ = sut.executePartTwo(input: Day_2_2023.input)
+        }
+    }
+    
     
     // MARK: Parsing tests
     
