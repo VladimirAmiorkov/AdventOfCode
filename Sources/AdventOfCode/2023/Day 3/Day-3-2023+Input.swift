@@ -23,9 +23,11 @@ extension Day_3_2023 {
     .664.598..
     """
     
-    static var testInputPart2 =
+    static var testInput2 =
     """
-    
+    1*.............1..*1
+    ...@.../......1*....
+    ......100.....1.1...
     """
     
     static let input =

@@ -42,12 +42,16 @@ extension Day_3_2023 {
         let row: Int
         let lowerBound: Int
         let upperBound: Int
+        var boundsRange: ClosedRange<Int> {
+            lowerBound...upperBound
+        }
+        
+        var diagonalBoundsRange: ClosedRange<Int> {
+            lowerBound - 1...upperBound + 1
+        }
         
         func intersects(with other: Location) -> Bool {
-            let lowerBoundIntersects = lowerBound == other.lowerBound || lowerBound == (other.lowerBound - 1) || lowerBound == (other.lowerBound + 1)
-            let upperBoundIntersects = upperBound == other.upperBound || upperBound == (other.upperBound - 1) || upperBound == (other.upperBound + 1)
-            
-            return lowerBoundIntersects || upperBoundIntersects
+            boundsRange.contains(other.boundsRange) || diagonalBoundsRange.contains(other.boundsRange)
         }
     }
     
@@ -64,12 +68,6 @@ extension Day_3_2023 {
     struct RowResult {
         let numbers: [Number]
         let symbols: [Symbol]
-        
-//        var value: Int {
-//            numbers.reduce(into: 0) { partialResult, number in
-//                partialResult += number.value
-//            }
-//        }
     }
 }
 
@@ -80,7 +78,7 @@ extension Day_3_2023 {
         
         enum Const {
             static let numberRegEx = "(\\d+)"
-            static let symbolRegEx = "([!@#$%^&*()-+])"
+            static let symbolRegEx = "([$&+,:;=?@#|'<>^*()%!/-])"
         }
         
         static func getRowResult(lines: [String]) -> [RowResult] {
@@ -137,13 +135,15 @@ extension Day_3_2023 {
         }
         
         static func value(from rowResult: RowResult, in rows: [RowResult]) -> Int {
+            assert(rows.count >= 2 && rows.count <= 3)
+            
             var result = 0
             rowResult.numbers.forEach { number in
                 for row in rows {
                     var found = false
                     for symbol in row.symbols {
                         guard number.location.intersects(with: symbol.location) else {
-                            consolePrint("DROPPING \(number)")
+                            consolePrint("DROPPING \(number) when compared to: \(symbol)")
                             continue
                         }
                         
@@ -184,6 +184,6 @@ extension Day_3_2023.Parser: ConsolePrintable {
     }
     
     static var enableConsolePrint: Bool {
-        true
+        false
     }
 }
