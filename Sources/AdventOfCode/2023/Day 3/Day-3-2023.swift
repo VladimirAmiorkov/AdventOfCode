@@ -90,7 +90,7 @@ extension Day_3_2023 {
     
     struct Parser {
         
-        enum Const {
+        private enum Const {
             static let numberRegEx = "(\\d+)"
             static let symbolRegEx = "([$&+,:;=?@#|'<>^*()%!/-])"
         }

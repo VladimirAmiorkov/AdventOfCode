@@ -10,5 +10,6 @@ This repo contains solution to the challenges written in Swift, if you do not wa
     - [Day 1](https://adventofcode.com/2023/day/1) - ⭐️⭐️ [go to solution](https://github.com/VladimirAmiorkov/AdventOfCode/blob/main/Sources/AdventOfCode/2023/Day%201/Day-1-2023.swift)
     - [Day 2](https://adventofcode.com/2023/day/2) - ⭐️⭐️ [go to solution](https://github.com/VladimirAmiorkov/AdventOfCode/blob/main/Sources/AdventOfCode/2023/Day%202/Day-2-2023.swift)
     - [Day 3](https://adventofcode.com/2023/day/2) - ⭐️⭐️ [go to solution]( https://github.com/VladimirAmiorkov/AdventOfCode/blob/main/Sources/AdventOfCode/2023/Day%203/Day-3-2023.swift)
+    - [Day 4](https://adventofcode.com/2023/day/2) - ⭐️ [go to solution]( https://github.com/VladimirAmiorkov/AdventOfCode/blob/main/Sources/AdventOfCode/2023/Day%204/Day-4-2023.swift)
 
    

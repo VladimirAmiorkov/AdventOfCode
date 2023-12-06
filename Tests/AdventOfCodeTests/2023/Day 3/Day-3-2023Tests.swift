@@ -10,7 +10,6 @@ import XCTest
 
 final class Day_3_2023Tests: XCTestCase {
 
-   
     private var sut: Day_3_2023!
     
     override func setUpWithError() throws {
