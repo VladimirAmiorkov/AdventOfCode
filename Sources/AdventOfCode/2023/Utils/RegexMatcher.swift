@@ -23,7 +23,7 @@ struct RegexMatcher {
         }
     }
     
-    static func captureGroups(for regex: String, in text: String) -> [[String]] {
+    static func captureGroups(for regex: String, in text: String) -> [[Match]] {
         do {
             let regex = try NSRegularExpression(pattern: regex)
             let textRange = NSRange(
@@ -33,7 +33,7 @@ struct RegexMatcher {
             let results = regex.matches(in: text,
                                         range: NSRange(text.startIndex..., in: text))
             return results.map {
-                var values: [String] = []
+                var values: [Match] = []
                 
                 for rangeIndex in 0..<$0.numberOfRanges {
                     let matchRange = $0.range(at: rangeIndex)
@@ -44,7 +44,7 @@ struct RegexMatcher {
                     // Extract the substring matching the capture group
                     if let substringRange = Range(matchRange, in: text) {
                         let capture = String(text[substringRange])
-                        values.append(capture)
+                        values.append(Match(range: matchRange, value: capture))
                     }
                 }
                 
@@ -54,5 +54,10 @@ struct RegexMatcher {
             print("invalid regex: \(error.localizedDescription)")
             return []
         }
+    }
+    
+    struct Match {
+        let range: NSRange
+        let value: String
     }
 }

@@ -64,7 +64,6 @@ final class Day_2_2023Tests: XCTestCase {
         }
     }
     
-    
     // MARK: Parsing tests
     
     func testZeroSetParser() throws {

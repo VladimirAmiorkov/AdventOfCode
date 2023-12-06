@@ -9,7 +9,6 @@ import Foundation
 
 public struct Day_2_2023 { }
 
-
 // MARK: AdventTaskExecutable
 extension Day_2_2023: AdventTaskExecutable {
     
@@ -121,7 +120,7 @@ extension Day_2_2023 {
             let gameIdString = String(line[..<gameIDSeparatorIndex])
             let gameIDMatches = RegexMatcher.captureGroups(for: Const.gameIDRegEx, in: gameIdString)
             
-            guard let gameIdStr = gameIDMatches.first?.first, let gameID = Int(gameIdStr)  else { 
+            guard let gameIdStr = gameIDMatches.first?.first?.value, let gameID = Int(gameIdStr)  else {
                 return nil
             }
             
@@ -142,9 +141,9 @@ extension Day_2_2023 {
             let redMatches = RegexMatcher.captureGroups(for: Const.redRegEx, in: line)
             let greenMatches = RegexMatcher.captureGroups(for: Const.greenRegEx, in: line)
             let blueMatches = RegexMatcher.captureGroups(for: Const.blueRegEx, in: line)
-            let red = readMatches(redMatches.flatMap { $0 })
-            let green = readMatches(greenMatches.flatMap { $0 })
-            let blue = readMatches(blueMatches.flatMap { $0 })
+            let red = readMatches(redMatches.flatMap { $0.compactMap { $0.value } })
+            let green = readMatches(greenMatches.flatMap { $0.compactMap { $0.value } })
+            let blue = readMatches(blueMatches.flatMap { $0.compactMap { $0.value } })
             
             let set = BagResult(red: red, green: green, blue: blue)
             consolePrint("Parsed \(line) to \(set)")
