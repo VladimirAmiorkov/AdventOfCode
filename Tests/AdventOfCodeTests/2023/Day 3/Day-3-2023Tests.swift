@@ -48,11 +48,19 @@ final class Day_3_2023Tests: XCTestCase {
     }
     
     func testPartTwoTestInput() throws {
-        XCTFail()
+        let answer = try XCTUnwrap(sut.executePartTwo(input: Day_3_2023.testInput) as? Int)
+        
+        let expected = 467835
+        
+        XCTAssertEqual(answer, expected)
     }
     
     func testPartTwoRealInput() throws {
-        XCTFail()
+        let answer = try XCTUnwrap(sut.executePartTwo(input: Day_3_2023.input) as? Int)
+        
+        let expected = 84051670
+        
+        XCTAssertEqual(answer, expected)
     }
     
     func testPerformanceExecutePart2() throws {

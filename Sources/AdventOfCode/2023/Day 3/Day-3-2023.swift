@@ -32,13 +32,27 @@ extension Day_3_2023: AdventTaskExecutable {
     }
     
     func executePartTwo(input: Any) -> Any? {
-        return nil
+        guard let inputParsed = InputParser.parse(input: input) else { return nil }
+        
+        let numbers = Parser.getRowResult(lines: inputParsed)
+        
+        assert(inputParsed.count == numbers.count)
+        
+        guard !numbers.isEmpty else { return nil }
+        
+        var parser = Parser()
+        let answer = parser.partTwoValue(from: numbers)
+        
+        consolePrint("Day 3-2023 part 2 - input: \n\(input)")
+        consolePrint("Day 3-2023 part 2 - answer: '\(answer)'")
+        
+        return answer
     }
 }
 
 extension Day_3_2023 {
     
-    struct Location {
+    struct Location: Hashable {
         let row: Int
         let lowerBound: Int
         let upperBound: Int
@@ -60,14 +74,14 @@ extension Day_3_2023 {
         let location: Location
     }
     
-    struct Symbol {
-        var value: String
+    struct Symbol: Hashable {
+        let value: String
         let location: Location
     }
     
     struct RowResult {
         let numbers: [Number]
-        let symbols: [Symbol]
+        var symbols: [Symbol]
     }
 }
 
@@ -108,7 +122,7 @@ extension Day_3_2023 {
                 guard let match = matches.last else { return }
                 symbols.append(
                     Symbol(value: match.value, location: Location(row: rowNumber, lowerBound: match.range.lowerBound,
-                                                                upperBound: match.range.upperBound))
+                                                                  upperBound: match.range.upperBound))
                 )
             }
             
@@ -132,6 +146,28 @@ extension Day_3_2023 {
             }
             
             return total
+        }
+        
+        var partTwoCache: [Symbol: [Int]] = [:]
+        mutating func partTwoValue(from rowResults: [RowResult]) -> Int {
+            for (index, row) in rowResults.enumerated() {
+                var adjacentRows: [RowResult] = [row]
+                if let prevRow = rowResults[safe: index - 1] {
+                    adjacentRows.append(prevRow)
+                }
+                
+                if let nextRow = rowResults[safe: index + 1] {
+                    adjacentRows.append(nextRow)
+                }
+                
+                partTwoValue(from: row, in: adjacentRows)
+            }
+            
+            let foundValues = partTwoCache.filter { $0.value.count == 2 }
+            
+            return foundValues.reduce(into: 0) { partialResult, dict in
+                partialResult += dict.value.reduce(1, *)
+            }
         }
         
         static func value(from rowResult: RowResult, in rows: [RowResult]) -> Int {
@@ -161,6 +197,26 @@ extension Day_3_2023 {
             
             return result
         }
+        
+        mutating func partTwoValue(from rowResult: RowResult, in rows: [RowResult]) {
+            assert(rows.count >= 2 && rows.count <= 3)
+            
+            rowResult.numbers.forEach { number in
+                for row in rows {
+                    for symbol in row.symbols {
+                        guard symbol.value == "*" && number.location.intersects(with: symbol.location) else {
+                            consolePrint("DROPPING \(number) when compared to: \(symbol)")
+                            continue
+                        }
+                        
+                        var values = partTwoCache[symbol] ?? []
+                        values.append(number.value)
+                        partTwoCache[symbol] = values
+                        consolePrint("Found \(number)")
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -172,7 +228,7 @@ extension Day_3_2023: ConsolePrintable {
     }
     
     static var enableConsolePrint: Bool {
-        false
+        true
     }
 }
 
