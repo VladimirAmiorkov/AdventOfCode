@@ -47,17 +47,17 @@ final class Day_4_2023Tests: XCTestCase {
     }
     
     func testPartTwoTestInput() throws {
-        let answer = try XCTUnwrap(sut.executePartTwo(input: Day_4_2023.testInput) as? Decimal)
+        let answer = try XCTUnwrap(sut.executePartTwo(input: Day_4_2023.testInput) as? Int)
         
-        let expected = Decimal(0)
+        let expected = Int(30)
         
         XCTAssertEqual(answer, expected)
     }
     
     func testPartTwoRealInput() throws {
-        let answer = try XCTUnwrap(sut.executePartTwo(input: Day_4_2023.input) as? Decimal)
+        let answer = try XCTUnwrap(sut.executePartTwo(input: Day_4_2023.input) as? Int)
         
-        let expected = Decimal(0)
+        let expected = Int(8805731)
         
         XCTAssertEqual(answer, expected)
     }

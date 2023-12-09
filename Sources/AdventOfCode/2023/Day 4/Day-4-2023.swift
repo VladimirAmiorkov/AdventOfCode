@@ -28,12 +28,13 @@ extension Day_4_2023: AdventTaskExecutable {
     }
     
     func executePartTwo(input: Any) -> Any? {
-//        guard let inputParsed = InputParser.parse(input: input) else { return nil }
+        guard let inputParsed = InputParser.parse(input: input) else { return nil }
         
-        let answer: Int? = nil
+        let cards = Parser.parse(lines: inputParsed)
+        let answer: Int = cards.resultPart2
         
-//        consolePrint("Day 4-2023 part 2 - input: \n\(input)")
-//        consolePrint("Day 4-2023 part 2 - answer: '\(answer)'")
+        consolePrint("Day 4-2023 part 2 - input: \n\(input)")
+        consolePrint("Day 4-2023 part 2 - answer: '\(answer)'")
         
         return answer
     }
@@ -54,6 +55,14 @@ extension Day_4_2023 {
                 term: Array(Set(values).intersection(Set(winningValues))).count,
                 firstTerm: 1, commonRation: 2
             )
+        }
+        
+        var matches: [Int] {
+            Array(Set(values).intersection(Set(winningValues)))
+        }
+        
+        var matchesCount: Int {
+            matches.count
         }
     }
     
@@ -151,6 +160,36 @@ private extension Array where Element == Day_4_2023.Card {
             consolePrint("Geometrical progression value: \($1.value)")
             $0 += $1.value
         }
+    }
+    
+    var resultPart2: Int {
+        var leftOverCards: [Day_4_2023.Card] = self
+        var result = 0
+        
+        while !leftOverCards.isEmpty {
+            var tempGards: [Day_4_2023.Card] = []
+            leftOverCards.forEach { card in
+                tempGards.append(contentsOf: processCard(card: card, in: self))
+            }
+            
+            leftOverCards = tempGards
+            result += leftOverCards.count
+        }
+        
+        return result + self.count
+    }
+    
+    func processCard(card: Day_4_2023.Card,  in cards: [Day_4_2023.Card]) ->  [Day_4_2023.Card] {
+        guard card.matchesCount > 0 else { return [] }
+        
+        let startIndex = card.id
+        let endIndex = startIndex + card.matchesCount
+        
+        let wonCards = Array(cards[startIndex..<endIndex])
+        
+        consolePrint("Won cards: \(wonCards.map { $0.id })")
+        
+        return wonCards
     }
 }
 

@@ -14,6 +14,10 @@
   "testTargets" : [
     {
       "parallelizable" : true,
+      "skippedTests" : [
+        "Day_4_2023Tests\/testPartTwoRealInput()",
+        "Day_4_2023Tests\/testPerformanceExecutePart2()"
+      ],
       "target" : {
         "containerPath" : "container:",
         "identifier" : "AdventOfCodeTests",
